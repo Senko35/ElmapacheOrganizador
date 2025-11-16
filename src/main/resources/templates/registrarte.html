@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Cuenta</title>
+    <link rel="stylesheet" href="src/main/java/resources/static/css/registrarte.css">
+</head>
+<body>
+
+<div class="container">
+
+    <img src="/img/mapache.png" class="logo">
+
+    <div class="title">El Mapache Organizador</div>
+    <div class="subtitle">Tu asistente personal para organizar tareas 🦝</div>
+
+    <div class="card">
+
+        <h3>Crear Cuenta</h3>
+        <p class="desc">Regístrate para comenzar a organizar tus tareas</p>
+
+        <form action="/auth/register" method="post">
+
+            <label>Nombre completo</label>
+            <div class="input-group">
+                <span class="icon">👤</span>
+                <input type="text" name="name" placeholder="Juan Pérez" required>
+            </div>
+
+            <label>Correo electrónico</label>
+            <div class="input-group">
+                <span class="icon">✉️</span>
+                <input type="email" name="email" placeholder="tu@email.com" required>
+            </div>
+
+            <label>Contraseña</label>
+            <div class="input-group">
+                <span class="icon">🔒</span>
+                <input type="password" name="password" id="pass1" required>
+                <span class="toggle-pass" onclick="togglePass('pass1')">👁️</span>
+            </div>
+
+            <label>Confirmar contraseña</label>
+            <div class="input-group">
+                <span class="icon">🔒</span>
+                <input type="password" name="password2" id="pass2" required>
+                <span class="toggle-pass" onclick="togglePass('pass2')">👁️</span>
+            </div>
+
+            <div class="checkbox">
+                <input type="checkbox" required>
+                <label>Acepto los términos y condiciones de uso</label>
+            </div>
+
+            <button class="btn">Crear Cuenta</button>
+
+        </form>
+
+        <a href="/login" class="back">← Volver al inicio de sesión</a>
+
+    </div>
+
+</div>
+
+<script>
+    function togglePass(id) {
+        let campo = document.getElementById(id);
+        campo.type = campo.type === "password" ? "text" : "password";
+    }
+</script>
+
+</body>
+</html>

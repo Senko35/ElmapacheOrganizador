@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>El Mapache Organizador</title>
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Logo del mapache -->
+    <img src="/img/mapache.png" class="logo" alt="Logo mapache">
+
+    <h1>El Mapache Organizador</h1>
+    <p class="subtitle">Tu asistente personal para organizar tareas 🦝</p>
+
+    <div class="card">
+
+        <h2>Iniciar Sesión</h2>
+        <p>Ingresa tus credenciales para acceder a tus tareas</p>
+
+        <form action="/login" method="post">
+
+            <label class="input-label">Correo electrónico</label>
+            <input class="input-box" type="email" name="email" placeholder="tu@email.com">
+
+            <label class="input-label">Contraseña</label>
+            <input class="input-box" type="password" name="password" placeholder="••••••">
+
+            <button type="submit" class="btn-login">Iniciar Sesión</button>
+
+        </form>
+
+        <div class="link">
+            <a href="/recover">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <div class="link">
+            ¿No tienes cuenta? <a href="/register">Regístrate aquí</a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

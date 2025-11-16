@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Recuperar contraseña</title>
+    <link rel="stylesheet" href="../css/recuperar.css">
+</head>
+<body>
+
+<div class="container">
+
+    <img src="/img/mapache.png" class="logo">
+
+    <div class="title">Recuperar contraseña</div>
+    <div class="subtitle">Ingresa tu correo para enviarte un enlace</div>
+
+    <div class="card">
+
+        <form action="/auth/recover" method="post">
+
+            <label>Correo electrónico</label>
+
+            <div class="input-group">
+                <span class="icon">✉️</span>
+                <input type="email" name="email" placeholder="tu@email.com" required>
+            </div>
+
+            <button class="btn">Enviar enlace de recuperación</button>
+        </form>
+
+        <a href="/login" class="back">← Volver al inicio de sesión</a>
+
+    </div>
+
+</div>
+
+</body>
+</html>
