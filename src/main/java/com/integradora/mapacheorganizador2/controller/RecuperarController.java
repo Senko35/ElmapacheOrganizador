@@ -10,7 +10,7 @@ public class RecuperarController {
 
     @GetMapping("/recover")
     public String mostrarRecuperar() {
-        return "recover"; // recover.html
+        return "recuperar"; // recuperar.html
     }
 
     @PostMapping("/recover")
