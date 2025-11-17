@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class LoginController {
@@ -23,7 +24,8 @@ public class LoginController {
     @PostMapping("/login")
     public String procesarLogin(@RequestParam String email,
                               @RequestParam String password,
-                              Model model) {
+                              Model model,
+                              HttpSession session) {
         
         Usuario usuario = usuarioRepository.findByEmail(email);
         
@@ -32,7 +34,9 @@ public class LoginController {
             return "login";
         }
         
-        // Login exitoso - crear página dashboard después
-        return "redirect:/dashboard";
+        // Guardar usuario en sesión
+        session.setAttribute("usuario", usuario);
+        
+        return "redirect:/tareas";
     }
 }

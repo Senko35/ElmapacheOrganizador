@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>El Mapache Organizador</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/tareas.css">
+</head>
+<body>
+
+<header>
+    <div class="avatar">
+        <img src="/img/mapache.png" alt="mapache" />
+    </div>
+    <h2>El Mapache Organizador</h2>
+    <p th:text="'¡Hola ' + ${nombreUsuario} + '! Organiza tus tareas como un mapache profesional 🦝'">¡Hola Usuario! Organiza tus tareas como un mapache profesional 🦝</p>
+</header>
+
+<div class="cards">
+    <div class="card"><h2>0</h2><p>Total</p></div>
+    <div class="card"><h2>0</h2><p>Pendientes</p></div>
+    <div class="card"><h2>0</h2><p>Completadas</p></div>
+    <div class="card"><h2>0</h2><p>Personales</p></div>
+    <div class="card"><h2>0</h2><p>Trabajo</p></div>
+</div>
+
+<div class="section">
+    <h3>Nueva Tarea</h3>
+    <p>Agrega una tarea, selecciona si es personal o de trabajo y asígnale una prioridad</p>
+
+    <input type="text" class="input-box" placeholder="Escribe una nueva tarea..." />
+
+    <div class="row">
+        <select>
+            <option>Personal</option>
+            <option>Trabajo</option>
+        </select>
+
+        <select>
+            <option>Alta</option>
+            <option>Media</option>
+            <option>Baja</option>
+        </select>
+
+        <button>Agregar</button>
+    </div>
+</div>
+
+<nav>
+    <div class="nav-btn">Todas (0)</div>
+    <div class="nav-btn">Pendientes (0)</div>
+    <div class="nav-btn">Completadas (0)</div>
+    <div class="nav-btn">Personales (0)</div>
+    <div class="nav-btn">Trabajo (0)</div>
+</nav>
+
+</body>
+</html>
