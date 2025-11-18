@@ -20,42 +20,258 @@
 </header>
 
 <div class="cards">
-    <div class="card"><h2>0</h2><p>Total</p></div>
-    <div class="card"><h2>0</h2><p>Pendientes</p></div>
-    <div class="card"><h2>0</h2><p>Completadas</p></div>
-    <div class="card"><h2>0</h2><p>Personales</p></div>
-    <div class="card"><h2>0</h2><p>Trabajo</p></div>
+    <div class="card"><h2 th:text="${total}">0</h2><p>Total</p></div>
+    <div class="card"><h2 th:text="${pendientes}">0</h2><p>Pendientes</p></div>
+    <div class="card"><h2 th:text="${completadas}">0</h2><p>Completadas</p></div>
+    <div class="card"><h2 th:text="${personales}">0</h2><p>Personales</p></div>
+    <div class="card"><h2 th:text="${trabajo}">0</h2><p>Trabajo</p></div>
 </div>
 
 <div class="section">
     <h3>Nueva Tarea</h3>
     <p>Agrega una tarea, selecciona si es personal o de trabajo y asígnale una prioridad</p>
 
-    <input type="text" class="input-box" placeholder="Escribe una nueva tarea..." />
+    <form action="/tareas/agregar" method="post">
+        <input type="text" name="descripcion" class="input-box" placeholder="Escribe una nueva tarea..." required />
 
-    <div class="row">
-        <select>
-            <option>Personal</option>
-            <option>Trabajo</option>
-        </select>
+        <div class="row">
+            <select name="categoria" required>
+                <option value="Personal">Personal</option>
+                <option value="Trabajo">Trabajo</option>
+            </select>
 
-        <select>
-            <option>Alta</option>
-            <option>Media</option>
-            <option>Baja</option>
-        </select>
+            <select name="prioridad" required>
+                <option value="Alta">Alta</option>
+                <option value="Media">Media</option>
+                <option value="Baja">Baja</option>
+            </select>
 
-        <button>Agregar</button>
-    </div>
+            <button type="submit">Agregar</button>
+        </div>
+    </form>
 </div>
 
 <nav>
-    <div class="nav-btn">Todas (0)</div>
-    <div class="nav-btn">Pendientes (0)</div>
-    <div class="nav-btn">Completadas (0)</div>
-    <div class="nav-btn">Personales (0)</div>
-    <div class="nav-btn">Trabajo (0)</div>
+    <a href="/tareas" class="nav-btn" th:class="${filtroActivo == 'todas'} ? 'nav-btn active' : 'nav-btn'">Todas (<span th:text="${total}">0</span>)</a>
+    <a href="/tareas?filtro=pendientes" class="nav-btn" th:class="${filtroActivo == 'pendientes'} ? 'nav-btn active' : 'nav-btn'">Pendientes (<span th:text="${pendientes}">0</span>)</a>
+    <a href="/tareas?filtro=completadas" class="nav-btn" th:class="${filtroActivo == 'completadas'} ? 'nav-btn active' : 'nav-btn'">Completadas (<span th:text="${completadas}">0</span>)</a>
+    <a href="/tareas?filtro=personales" class="nav-btn" th:class="${filtroActivo == 'personales'} ? 'nav-btn active' : 'nav-btn'">Personales (<span th:text="${personales}">0</span>)</a>
+    <a href="/tareas?filtro=trabajo" class="nav-btn" th:class="${filtroActivo == 'trabajo'} ? 'nav-btn active' : 'nav-btn'">Trabajo (<span th:text="${trabajo}">0</span>)</a>
 </nav>
+
+<div class="ordenamiento">
+    <h4>📊 Estructuras de Datos:</h4>
+    <div class="orden-btns">
+        <a href="/tareas?orden=prioridad" class="orden-btn" th:class="${ordenActivo == 'prioridad'} ? 'orden-btn active' : 'orden-btn'">🎯 Lista Priorizada</a>
+        <a href="/tareas?orden=pila" class="orden-btn" th:class="${ordenActivo == 'pila'} ? 'orden-btn active' : 'orden-btn'">📚 Pila (LIFO)</a>
+        <a href="/tareas?orden=cola" class="orden-btn" th:class="${ordenActivo == 'cola'} ? 'orden-btn active' : 'orden-btn'">🚶 Cola (FIFO)</a>
+        <a href="/tareas" class="orden-btn" th:class="${ordenActivo == 'normal'} ? 'orden-btn active' : 'orden-btn'">📋 Normal</a>
+    </div>
+</div>
+
+<div class="tareas-lista" th:if="${tareas != null and !tareas.empty}">
+    <h3>Mis Tareas</h3>
+    <div th:each="tarea : ${tareas}" class="tarea-item">
+        <div class="tarea-info">
+            <span th:text="${tarea.descripcion}" th:class="${tarea.completada} ? 'completada' : ''">Descripción de la tarea</span>
+            <div class="tarea-meta">
+                <span class="categoria" th:text="${tarea.categoria}">Personal</span>
+                <span class="prioridad" th:text="${tarea.prioridad}" th:class="'prioridad-' + ${tarea.prioridad.toLowerCase()}">Alta</span>
+                <span class="nivel-prioridad" th:text="${gestorTareas.obtenerDescripcionPrioridad(tarea)}">Nivel</span>
+            </div>
+        </div>
+        <form action="/tareas/completar" method="post" style="display: inline;">
+            <input type="hidden" name="id" th:value="${tarea.id}" />
+            <button type="submit" class="btn-completar" th:text="${tarea.completada} ? '↶' : '✓'" th:title="${tarea.completada} ? 'Marcar como pendiente' : 'Marcar como completada'">✓</button>
+        </form>
+    </div>
+</div>
+
+<div th:if="${tareas == null or tareas.empty}" class="sin-tareas">
+    <p>No tienes tareas aún. ¡Agrega tu primera tarea! 🦝</p>
+</div>
+
+<div class="info-estructuras" th:if="${ordenActivo != 'normal'}">
+    <div class="estructura-info">
+        <h4 th:if="${ordenActivo == 'prioridad'}">🎯 Lista Priorizada</h4>
+        <p th:if="${ordenActivo == 'prioridad'}">Ordenadas por prioridad: Trabajo Alta(6) > Personal Alta(3) > Trabajo Media(5) > Personal Media(2) > Trabajo Baja(4) > Personal Baja(1)</p>
+        
+        <h4 th:if="${ordenActivo == 'pila'}">📚 Pila (LIFO - Last In, First Out)</h4>
+        <p th:if="${ordenActivo == 'pila'}">Las tareas más recientes aparecen primero. Útil para trabajar en lo último que agregaste.</p>
+        
+        <h4 th:if="${ordenActivo == 'cola'}">🚶 Cola (FIFO - First In, First Out)</h4>
+        <p th:if="${ordenActivo == 'cola'}">Las tareas más antiguas aparecen primero. Útil para completar tareas en orden de llegada.</p>
+    </div>
+</div>
+
+<style>
+.tareas-lista {
+    margin: 20px 0;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.tarea-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    margin: 10px 0;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+}
+
+.tarea-info {
+    flex: 1;
+}
+
+.tarea-meta {
+    margin-top: 5px;
+    font-size: 0.9em;
+}
+
+.categoria {
+    background: #e9ecef;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-right: 10px;
+}
+
+.prioridad {
+    padding: 2px 8px;
+    border-radius: 12px;
+    color: white;
+}
+
+.prioridad-alta { background: #dc3545; }
+.prioridad-media { background: #ffc107; color: #000; }
+.prioridad-baja { background: #28a745; }
+
+.completada {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.btn-completar {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-completar:hover {
+    background: #218838;
+}
+
+.sin-tareas {
+    text-align: center;
+    padding: 40px;
+    color: #6c757d;
+    font-style: italic;
+}
+
+.nav-btn {
+    text-decoration: none;
+    color: inherit;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    background-color: #f8f9fa;
+    text-decoration: none;
+    color: inherit;
+}
+
+.nav-btn.active {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+.nav-btn.active:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+.ordenamiento {
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #28a745;
+}
+
+.ordenamiento h4 {
+    margin: 0 0 10px 0;
+    color: #495057;
+}
+
+.orden-btns {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.orden-btn {
+    padding: 8px 15px;
+    background: white;
+    border: 2px solid #dee2e6;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #495057;
+    font-size: 0.9em;
+    transition: all 0.3s ease;
+}
+
+.orden-btn:hover {
+    background: #e9ecef;
+    text-decoration: none;
+    color: #495057;
+}
+
+.orden-btn.active {
+    background: #28a745;
+    border-color: #28a745;
+    color: white;
+    font-weight: bold;
+}
+
+.nivel-prioridad {
+    font-size: 0.8em;
+    background: #6c757d;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 5px;
+}
+
+.info-estructuras {
+    margin: 20px 0;
+    padding: 15px;
+    background: #e3f2fd;
+    border-radius: 10px;
+    border-left: 4px solid #2196f3;
+}
+
+.estructura-info h4 {
+    margin: 0 0 8px 0;
+    color: #1976d2;
+}
+
+.estructura-info p {
+    margin: 0;
+    color: #424242;
+    font-size: 0.9em;
+}
+</style>
 
 </body>
 </html>
