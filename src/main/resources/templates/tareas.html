@@ -12,11 +12,18 @@
 <body>
 
 <header>
-    <div class="avatar">
-        <img src="/img/mapache.png" alt="mapache" />
+    <a href="/logout" class="btn-logout">Cerrar sesión</a>
+    <div class="header-left">
+        <div class="avatar">
+            <img src="/img/mapache.png" alt="mapache" />
+        </div>
+        <div class="header-text">
+            <h2>El Mapache Organizador</h2>
+            <p th:text="'¡Hola ' + ${nombreUsuario} + '! Organiza tus tareas como un mapache profesional 🦝'">
+                ¡Hola Usuario! Organiza tus tareas como un mapache profesional 🦝
+            </p>
+        </div>
     </div>
-    <h2>El Mapache Organizador</h2>
-    <p th:text="'¡Hola ' + ${nombreUsuario} + '! Organiza tus tareas como un mapache profesional 🦝'">¡Hola Usuario! Organiza tus tareas como un mapache profesional 🦝</p>
 </header>
 
 <div class="cards">
@@ -52,11 +59,21 @@
 </div>
 
 <nav>
-    <a href="/tareas" class="nav-btn" th:class="${filtroActivo == 'todas'} ? 'nav-btn active' : 'nav-btn'">Todas (<span th:text="${total}">0</span>)</a>
-    <a href="/tareas?filtro=pendientes" class="nav-btn" th:class="${filtroActivo == 'pendientes'} ? 'nav-btn active' : 'nav-btn'">Pendientes (<span th:text="${pendientes}">0</span>)</a>
-    <a href="/tareas?filtro=completadas" class="nav-btn" th:class="${filtroActivo == 'completadas'} ? 'nav-btn active' : 'nav-btn'">Completadas (<span th:text="${completadas}">0</span>)</a>
-    <a href="/tareas?filtro=personales" class="nav-btn" th:class="${filtroActivo == 'personales'} ? 'nav-btn active' : 'nav-btn'">Personales (<span th:text="${personales}">0</span>)</a>
-    <a href="/tareas?filtro=trabajo" class="nav-btn" th:class="${filtroActivo == 'trabajo'} ? 'nav-btn active' : 'nav-btn'">Trabajo (<span th:text="${trabajo}">0</span>)</a>
+    <a href="/tareas" class="nav-btn" th:class="${filtroActivo == 'todas'} ? 'nav-btn active' : 'nav-btn'">
+        Todas (<span th:text="${total}">0</span>)
+    </a>
+    <a href="/tareas?filtro=pendientes" class="nav-btn" th:class="${filtroActivo == 'pendientes'} ? 'nav-btn active' : 'nav-btn'">
+        Pendientes (<span th:text="${pendientes}">0</span>)
+    </a>
+    <a href="/tareas?filtro=completadas" class="nav-btn" th:class="${filtroActivo == 'completadas'} ? 'nav-btn active' : 'nav-btn'">
+        Completadas (<span th:text="${completadas}">0</span>)
+    </a>
+    <a href="/tareas?filtro=personales" class="nav-btn" th:class="${filtroActivo == 'personales'} ? 'nav-btn active' : 'nav-btn'">
+        Personales (<span th:text="${personales}">0</span>)
+    </a>
+    <a href="/tareas?filtro=trabajo" class="nav-btn" th:class="${filtroActivo == 'trabajo'} ? 'nav-btn active' : 'nav-btn'">
+        Trabajo (<span th:text="${trabajo}">0</span>)
+    </a>
 </nav>
 
 <div class="ordenamiento">
@@ -69,7 +86,8 @@
     </div>
 </div>
 
-<div class="tareas-lista" th:if="${tareas != null and !tareas.empty}">
+<!-- corregidos los th:if -->
+<div class="tareas-lista" th:if="${tareas != null and !#lists.isEmpty(tareas)}">
     <h3>Mis Tareas</h3>
     <div th:each="tarea : ${tareas}" class="tarea-item">
         <div class="tarea-info">
@@ -87,7 +105,7 @@
     </div>
 </div>
 
-<div th:if="${tareas == null or tareas.empty}" class="sin-tareas">
+<div th:if="${tareas == null or #lists.isEmpty(tareas)}" class="sin-tareas">
     <p>No tienes tareas aún. ¡Agrega tu primera tarea! 🦝</p>
 </div>
 
@@ -105,7 +123,38 @@
 </div>
 
 <style>
-.tareas-lista {
+
+    .header-center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    header {
+        position: relative;
+    }
+
+    .btn-logout {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        padding: 8px 14px;
+        background-color: #dc3545;
+        color: #fff;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 0.9em;
+    }
+
+    .btn-logout:hover {
+        background-color: #c82333;
+    }
+
+    .tareas-lista {
     margin: 20px 0;
     padding: 20px;
     background: white;
