@@ -38,7 +38,13 @@
             <label>Contraseña</label>
             <div class="input-group">
                 <span class="icon">🔒</span>
-                <input type="password" name="password" id="pass1" required>
+                <input type="password"
+                       name="password"
+                       id="pass1"
+                       required
+                       minlength="8"
+                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                       title="Mínimo 8 caracteres, con mayúsculas, minúsculas y números">
                 <span class="toggle-pass" onclick="togglePass('pass1')">👁️</span>
             </div>
 
