@@ -16,9 +16,7 @@ public class GestorTareas {
         ListaTareas listaPriorizada = new ListaTareas();
         
         for (Tarea tarea : tareas) {
-            if (!tarea.isCompletada()) {
                 listaPriorizada.insertarOrdenado(tarea);
-            }
         }
         
         return listaPriorizada.toList();
@@ -28,9 +26,7 @@ public class GestorTareas {
         PilaTareas pila = new PilaTareas();
         
         for (Tarea tarea : tareas) {
-            if (!tarea.isCompletada()) {
                 pila.push(tarea);
-            }
         }
         
         return pila.toList();
@@ -40,9 +36,7 @@ public class GestorTareas {
         ColaTareas cola = new ColaTareas();
         
         for (Tarea tarea : tareas) {
-            if (!tarea.isCompletada()) {
                 cola.enqueue(tarea);
-            }
         }
         
         return cola.toList();

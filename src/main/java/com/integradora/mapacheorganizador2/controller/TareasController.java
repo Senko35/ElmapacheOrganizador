@@ -47,7 +47,8 @@ public class TareasController {
         } else {
             tareas = tareaRepository.findByUsuario(usuario);
         }
-        
+
+        System.out.println("tareas antes de ordenar(filtro=" + filtro + "):" + tareas.size());
         // Aplicar ordenamiento usando estructuras de datos
         if ("prioridad".equals(orden)) {
             tareas = gestorTareas.organizarPorPrioridad(tareas);
@@ -56,7 +57,10 @@ public class TareasController {
         } else if ("cola".equals(orden)) {
             tareas = gestorTareas.organizarPorPrimerasAgregadas(tareas);
         }
-        
+
+        System.out.println("TAREAS DESPUÉS DE ORDENAR (orden=" + orden + "): " + tareas.size());
+
+
         // Estadísticas
         long total = tareaRepository.countByUsuario(usuario);
         long pendientes = tareaRepository.countByUsuarioAndCompletada(usuario, false);
