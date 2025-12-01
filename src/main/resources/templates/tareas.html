@@ -86,7 +86,6 @@
     </div>
 </div>
 
-<!-- corregidos los th:if -->
 <div class="tareas-lista" th:if="${tareas != null and !#lists.isEmpty(tareas)}">
     <h3>Mis Tareas</h3>
     <div th:each="tarea : ${tareas}" class="tarea-item">
@@ -98,10 +97,26 @@
                 <span class="nivel-prioridad" th:text="${gestorTareas.obtenerDescripcionPrioridad(tarea)}">Nivel</span>
             </div>
         </div>
-        <form action="/tareas/completar" method="post" style="display: inline;">
-            <input type="hidden" name="id" th:value="${tarea.id}" />
-            <button type="submit" class="btn-completar" th:text="${tarea.completada} ? '↶' : '✓'" th:title="${tarea.completada} ? 'Marcar como pendiente' : 'Marcar como completada'">✓</button>
-        </form>
+        <div>
+
+            <form action="/tareas/completar" method="post" style="display: inline;">
+                <input type="hidden" name="id" th:value="${tarea.id}" />
+                <button type="submit" class="btn-completar"
+                        th:text="${tarea.completada} ? '↶' : '✓'"
+                        th:title="${tarea.completada} ? 'Marcar como pendiente' : 'Marcar como completada'">
+                    ✓
+                </button>
+            </form>
+
+           <form action="/tareas/eliminar" method="post" style="display: inline;"
+                 onsubmit="return confirm('Seguro de que deseas eliminar esta tarea?');">
+               <input type="hidden" name="id" th:value="${tarea.id}"/>
+               <button type="submit" class="btn-eliminar"
+                       th:text="'✖'"
+                       th:title="'Eliminar tarea'">
+               </button>
+           </form>
+        </div>
     </div>
 </div>
 
@@ -123,6 +138,20 @@
 </div>
 
 <style>
+
+    .btn-eliminar {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .btn-eliminar:hover {
+        background: #c82333;
+    }
 
     .header-center {
         display: flex;

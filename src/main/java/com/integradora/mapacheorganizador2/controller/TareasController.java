@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -48,7 +49,8 @@ public class TareasController {
             tareas = tareaRepository.findByUsuario(usuario);
         }
 
-        System.out.println("tareas antes de ordenar(filtro=" + filtro + "):" + tareas.size());
+        //System.out.println("tareas antes de ordenar(filtro=" + filtro + "):" + tareas.size());
+
         // Aplicar ordenamiento usando estructuras de datos
         if ("prioridad".equals(orden)) {
             tareas = gestorTareas.organizarPorPrioridad(tareas);
@@ -58,7 +60,7 @@ public class TareasController {
             tareas = gestorTareas.organizarPorPrimerasAgregadas(tareas);
         }
 
-        System.out.println("TAREAS DESPUÉS DE ORDENAR (orden=" + orden + "): " + tareas.size());
+        //System.out.println("TAREAS DESPUÉS DE ORDENAR (orden=" + orden + "): " + tareas.size());
 
 
         // Estadísticas
@@ -111,7 +113,22 @@ public class TareasController {
             tarea.setCompletada(!tarea.isCompletada());
             tareaRepository.save(tarea);
         }
-        
+    
+        return "redirect:/tareas";
+    }
+
+    @PostMapping("/tareas/eliminar")
+    public String eliminarTarea(@RequestParam Long id, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        Tarea tarea = tareaRepository.findById(id).orElse(null);
+        if (tarea != null && tarea.getUsuario().getId().equals(usuario.getId())) {
+            tareaRepository.delete(tarea);
+        }
+
         return "redirect:/tareas";
     }
 }
