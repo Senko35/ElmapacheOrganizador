@@ -82,6 +82,8 @@
         <a href="/tareas?orden=prioridad" class="orden-btn" th:class="${ordenActivo == 'prioridad'} ? 'orden-btn active' : 'orden-btn'">🎯 Lista Priorizada</a>
         <a href="/tareas?orden=pila" class="orden-btn" th:class="${ordenActivo == 'pila'} ? 'orden-btn active' : 'orden-btn'">📚 Pila (LIFO)</a>
         <a href="/tareas?orden=cola" class="orden-btn" th:class="${ordenActivo == 'cola'} ? 'orden-btn active' : 'orden-btn'">🚶 Cola (FIFO)</a>
+        <a href="/tareas?orden=arbol" class="orden-btn" th:class="${ordenActivo == 'arbol'} ? 'orden-btn active' : 'orden-btn'">🌳 Árbol (Mayor→Menor)</a>
+        <a href="/tareas?orden=arbol-asc" class="orden-btn" th:class="${ordenActivo == 'arbol-asc'} ? 'orden-btn active' : 'orden-btn'">🌲 Árbol (Menor→Mayor)</a>
         <a href="/tareas" class="orden-btn" th:class="${ordenActivo == 'normal'} ? 'orden-btn active' : 'orden-btn'">📋 Normal</a>
     </div>
 </div>
@@ -134,6 +136,12 @@
         
         <h4 th:if="${ordenActivo == 'cola'}">🚶 Cola (FIFO - First In, First Out)</h4>
         <p th:if="${ordenActivo == 'cola'}">Las tareas más antiguas aparecen primero. Útil para completar tareas en orden de llegada.</p>
+        
+        <h4 th:if="${ordenActivo == 'arbol'}">🌳 Árbol Binario (Mayor a Menor Prioridad)</h4>
+        <p th:if="${ordenActivo == 'arbol'}">Organiza tareas en un árbol binario de búsqueda. Recorrido InOrden Inverso: muestra de mayor a menor prioridad.</p>
+        
+        <h4 th:if="${ordenActivo == 'arbol-asc'}">🌲 Árbol Binario (Menor a Mayor Prioridad)</h4>
+        <p th:if="${ordenActivo == 'arbol-asc'}">Organiza tareas en un árbol binario de búsqueda. Recorrido InOrden: muestra de menor a mayor prioridad.</p>
     </div>
 </div>
 

@@ -58,6 +58,10 @@ public class TareasController {
             tareas = gestorTareas.organizarPorUltimasAgregadas(tareas);
         } else if ("cola".equals(orden)) {
             tareas = gestorTareas.organizarPorPrimerasAgregadas(tareas);
+        } else if ("arbol".equals(orden)) {
+            tareas = gestorTareas.organizarConArbolBinario(tareas);
+        } else if ("arbol-asc".equals(orden)) {
+            tareas = gestorTareas.organizarConArbolBinarioAscendente(tareas);
         }
 
         //System.out.println("TAREAS DESPUÉS DE ORDENAR (orden=" + orden + "): " + tareas.size());

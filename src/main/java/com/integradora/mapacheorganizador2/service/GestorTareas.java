@@ -5,6 +5,7 @@ import com.integradora.mapacheorganizador2.entity.Usuario;
 import com.integradora.mapacheorganizador2.estructuras.PilaTareas;
 import com.integradora.mapacheorganizador2.estructuras.ColaTareas;
 import com.integradora.mapacheorganizador2.estructuras.ListaTareas;
+import com.integradora.mapacheorganizador2.estructuras.ArbolBinarioPrioridad;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,6 +41,32 @@ public class GestorTareas {
         }
         
         return cola.toList();
+    }
+    
+    /**
+     * Organiza tareas usando Árbol Binario - Mayor prioridad primero
+     */
+    public List<Tarea> organizarConArbolBinario(List<Tarea> tareas) {
+        ArbolBinarioPrioridad arbol = new ArbolBinarioPrioridad();
+        
+        for (Tarea tarea : tareas) {
+            arbol.insertar(tarea);
+        }
+        
+        return arbol.obtenerPorPrioridadDescendente();
+    }
+    
+    /**
+     * Organiza tareas usando Árbol Binario - Menor prioridad primero
+     */
+    public List<Tarea> organizarConArbolBinarioAscendente(List<Tarea> tareas) {
+        ArbolBinarioPrioridad arbol = new ArbolBinarioPrioridad();
+        
+        for (Tarea tarea : tareas) {
+            arbol.insertar(tarea);
+        }
+        
+        return arbol.recorridoInOrden();
     }
     
     public String obtenerDescripcionPrioridad(Tarea tarea) {
